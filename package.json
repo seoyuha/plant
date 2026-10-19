@@ -1,0 +1,8 @@
+{
+  "name": "garden-road-defense",
+  "version": "1.0.0",
+  "description": "정원으로 가는 길을 막아라! - 6학년 영어 9단원 복습 디펜스 게임",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
