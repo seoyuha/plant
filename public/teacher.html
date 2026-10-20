@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>정원 대결 · 교사 화면</title>
+<style>
+:root{--leaf-d:#305621;--ink:#2f3a22;--paper:#fff6d6}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;color:var(--ink);background:radial-gradient(circle at 50% 0%,#c6e8a0,#7fa85d 90%);min-height:100vh;padding:16px}
+h1{margin:0 0 4px;color:#fff;text-shadow:0 2px 4px #0005;font-size:clamp(22px,3vw,32px)}
+.sub{color:#fff;margin:0 0 14px;font-weight:700;text-shadow:0 1px 2px #0005}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button,.btn{font:inherit;font-weight:900;border:3px solid #a56a23;border-radius:12px;background:linear-gradient(#ffe987,#f5b942);box-shadow:0 3px 0 #7d4a20;padding:8px 14px;cursor:pointer;color:#4a2f0e}
+.tabs button.on{background:linear-gradient(#5db2ff,#2f7fd1);border-color:#1f5fa8;color:#fff;box-shadow:0 3px 0 #17497f}
+.btn.alt{background:linear-gradient(#f6f3dc,#d4e7b4);border-color:#6b8349;box-shadow:0 3px 0 #56703a;color:var(--ink)}
+.panel{background:linear-gradient(#fffdf2,#fff1c9);border:5px solid #7a9a4e;border-radius:18px;padding:14px;box-shadow:0 6px 0 #4c6a2e}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.room{background:#fff;border:3px solid #d9c27d;border-radius:14px;padding:10px 12px}
+.room.playing{border-color:#e2503a}.room.over{border-color:#3f7d2c}
+.room h3{margin:0 0 6px;display:flex;justify-content:space-between;align-items:center;font-size:20px}
+.tag{font-size:13px;border-radius:99px;padding:2px 10px;color:#fff;background:#8a8a8a}
+.tag.playing{background:#e2503a}.tag.countdown{background:#f08a24}.tag.over{background:#3f7d2c}.tag.lobby{background:#2f7fd1}
+.p{display:flex;justify-content:space-between;gap:6px;padding:3px 0;border-top:1px dashed #e4d9b4;font-size:15px}
+.p.out{opacity:.5}.p.win b::before{content:'🏆 '}
+.meta{font-size:13px;color:#6b7a52;margin:4px 0 0}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid #eee3c3;text-align:center;font-variant-numeric:tabular-nums}
+th{background:#f3e7bd}td:first-child,th:first-child{text-align:left}
+.empty{text-align:center;padding:30px;font-size:18px;color:#6b7a52}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.big{font-size:20px;font-weight:900;text-align:center;line-height:1.7}
+.hidden{display:none!important}
+.gate{position:fixed;inset:0;background:radial-gradient(circle at 50% 0%,#c6e8a0,#527b35 90%);display:grid;place-items:center;padding:16px;z-index:10}
+.gbox{background:linear-gradient(#fffdf2,#fff1c9);border:5px solid #7a9a4e;border-radius:20px;box-shadow:0 6px 0 #4c6a2e;padding:22px;width:min(420px,100%)}
+.gbox h2{margin:0 0 8px;color:var(--leaf-d)}
+.gbox input{font:inherit;font-size:20px;width:100%;padding:10px 12px;border:3px solid #a7c27f;border-radius:12px;margin:6px 0}
+.gbox .btn{width:100%;font-size:19px;margin-top:8px}
+.gbox label{display:flex;gap:8px;align-items:center;font-weight:700;margin:6px 0}
+.gbox label input{width:20px;height:20px;margin:0}
+.err{color:#b23b2b;font-weight:800;min-height:1.3em;margin:6px 0 0}
+.big code{font-size:26px;background:#fff;border:3px solid #e3b23b;border-radius:10px;padding:2px 10px}
+</style>
+</head>
+<body>
+<h1>⚔️ 정원 대결 · 교사 화면</h1>
+<p class="sub">6학년 영어 9단원 How Can I Get to the Museum? · 학생끼리 좀비 보내기 대결</p>
+<div class="tabs" id="tabs"><button class="on" data-t="rooms">🏠 대결 방</button><button data-t="records">🏅 오늘의 기록</button><button data-t="guide">📖 수업 안내</button><span style="flex:1"></span><button class="btn alt" onclick="logout()">🔒 잠그기</button></div>
+<div class="panel" id="panel"></div>
+<div class="gate hidden" id="gate"><div class="gbox" id="gbox"></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let tab='rooms', data={rooms:[],records:[]};
+const STAGES=['전체 단계 섞기','1단계 · 교통수단과 장소 단어','2단계 · 길 묻고 답하기','3단계 · 위치 말하기','4단계 · 대화와 문법','5단계 · 읽기와 쓰기'];
+const ST={lobby:'기다리는 중',countdown:'곧 시작',playing:'대결 중',over:'끝'};
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;document.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x===b));render()});
+function left(r){const s=Math.max(0,Math.ceil((r.endAt-r.serverNow)/1000));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function render(){
+  const P=$('panel');
+  if(tab==='rooms'){
+    const rs=data.rooms;
+    P.innerHTML=`<div class="row"><b>방 ${rs.length}개 · 대결 중 ${rs.filter(r=>r.status==='playing').length}개 · 학생 ${rs.reduce((n,r)=>n+r.players.length,0)}명</b>
+      <span style="flex:1"></span><button class="btn alt" onclick="clearIt('rooms')">끝난 방 정리</button></div>`+
+      (rs.length?`<div class="grid">${rs.map(r=>`<div class="room ${r.status}"><h3>방 ${r.code}<span class="tag ${r.status}">${ST[r.status]}${r.status==='playing'?' · ⏱ '+left(r):''}</span></h3>
+        ${r.players.map(p=>`<div class="p${p.alive?'':' out'}${r.winner===p.pid?' win':''}"><b>${r.host===p.pid?'👑':''}${esc(p.name)}${p.online?'':' 📴'}</b><span>${p.alive?'❤️'+p.lives:'💥'} · ✅${p.correct} ❌${p.wrong} · 🧟${p.sent}</span></div>`).join('')}
+        <p class="meta">${STAGES[r.stage]||''}${r.round?' · '+r.round+'번째 판':''}</p></div>`).join('')}</div>`
+      :`<div class="empty">아직 만들어진 방이 없어요.<br>학생들이 <b>⚔️ 친구와 대결 → 방 만들기</b>를 누르면 여기에 나와요.</div>`);
+  }else if(tab==='records'){
+    const rc=data.records;
+    P.innerHTML=`<div class="row"><b>끝난 대결의 학생별 기록 (이름 기준)</b><span style="flex:1"></span>
+      <button class="btn" onclick="csv()">📥 엑셀용 CSV 내려받기</button><button class="btn alt" onclick="if(confirm('기록을 모두 지울까요?'))clearIt('records')">기록 지우기</button></div>`+
+      (rc.length?`<table><tr><th>이름</th><th>판</th><th>1등</th><th>정답</th><th>오답</th><th>정답률</th><th>보낸 좀비</th></tr>${rc.map(x=>`<tr><td>${esc(x.name)}</td><td>${x.games}</td><td>${x.wins}</td><td>${x.correct}</td><td>${x.wrong}</td><td>${x.correct+x.wrong?Math.round(x.correct/(x.correct+x.wrong)*100)+'%':'-'}</td><td>${x.sent}</td></tr>`).join('')}</table>`
+      :`<div class="empty">끝난 대결이 아직 없어요.</div>`);
+  }else{
+    P.innerHTML=`<div class="big">학생 주소 <code>${esc(location.origin)}</code></div>
+    <ol style="font-size:18px;line-height:1.8">
+      <li>학생: 주소 접속 → <b>⚔️ 친구와 대결</b> → 이름 쓰기</li>
+      <li>한 명이 <b>방 만들기</b>(문제 범위 고르기) → 화면에 나온 <b>방 번호 4자리</b>를 짝에게 알려 줘요.</li>
+      <li>짝(최대 4명)은 <b>방 번호</b>를 넣고 들어가기 → 방장(👑)이 <b>▶ 대결 시작</b></li>
+      <li>각자 자기 정원을 지켜요. <b>문제를 맞히면 친구 정원에 좀비 1마리</b>가 가고, 3문제 연속 정답이면 양동이 좀비가 가요.</li>
+      <li>틀리면 3초 동안 문제를 풀 수 없어요 (아무거나 누르기 방지). 문제 창을 여는 동안에도 좀비가 절반 속도로 와요.</li>
+      <li>목숨 5개를 모두 잃으면 탈락, 마지막까지 남은 정원이 1등. 6분이 지나면 목숨 → 정답 수로 순위를 정해요.</li>
+      <li>끝나면 방장이 <b>🔁 한 판 더</b>를 눌러 같은 친구들과 다시 할 수 있어요.</li>
+    </ol>
+    <p style="font-size:16px">💡 대결 중에 새로고침하면 그 판은 탈락이에요. 태블릿 화면이 꺼지지 않게 해 주세요.<br>
+    💡 무료 서버(Render)는 15분 동안 아무도 안 쓰면 잠들어요. 수업 5분 전에 이 화면을 먼저 열어 깨워 두세요.<br>
+    💡 서버가 다시 시작되면 방과 기록이 지워져요. 수업이 끝나면 🏅 기록을 CSV로 내려받아 두세요.</p>
+    <h3>🔑 교사 비밀번호</h3>
+    ${envPass?'<p>비밀번호는 Render의 Environment(환경 변수) <b>TEACHER_PASSWORD</b>로 정해져 있어요. 바꾸려면 Render에서 값을 고쳐 주세요.</p>'
+      :`<p style="font-size:16px">새 비밀번호로 바꿀 수 있어요. ⚠️ 무료 서버는 다시 시작되거나 새로 배포되면 이 화면에서 정한 비밀번호가 지워질 수 있어요. 오래 쓰려면 README의 <b>Render 환경 변수로 정하기</b>를 해 두세요.</p>
+      <div class="row"><input id="np" type="password" placeholder="새 비밀번호 (4글자 이상)" style="font:inherit;font-size:18px;padding:8px 10px;border:3px solid #a7c27f;border-radius:12px"><button class="btn" onclick="changePass()">비밀번호 바꾸기</button><span id="npMsg" class="err"></span></div>`}`;
+  }
+}
+/* ───── 교사 비밀번호: 처음 한 번 정하고, 이 기기에서는 기억해요 ───── */
+let pass='', envPass=false, timer=0;
+const H=()=>({'Content-Type':'application/json','x-teacher-pass':encodeURIComponent(pass)});
+function gate(html){$('gbox').innerHTML=html;$('gate').classList.remove('hidden');const i=$('gbox').querySelector('input');if(i)i.focus()}
+async function boot(){
+  let st={set:true};
+  try{st=await (await fetch('/api/teacher/state')).json()}catch(e){}
+  envPass=!!st.env;
+  if(!st.set){
+    gate(`<h2>🔑 교사 비밀번호 정하기</h2><p>처음 한 번만 정하면 돼요. 학생들이 교사 화면에 들어오지 못하게 막아요.</p>
+      <input id="p1" type="password" placeholder="비밀번호 (4글자 이상)"><input id="p2" type="password" placeholder="한 번 더 쓰기">
+      <label><input type="checkbox" id="rem" checked> 이 기기에서 기억하기</label>
+      <button class="btn" id="go">비밀번호 정하고 들어가기</button><p class="err" id="err"></p>`);
+    const go=async()=>{const a=$('p1').value,b=$('p2').value;
+      if(a.length<4)return $('err').textContent='4글자 이상으로 정해 주세요.';
+      if(a!==b)return $('err').textContent='두 비밀번호가 달라요.';
+      const r=await fetch('/api/teacher/setup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:a})});const j=await r.json();
+      if(!r.ok)return $('err').textContent=j.error;
+      enter(a,$('rem').checked)};
+    $('go').onclick=go;$('p2').onkeydown=e=>{if(e.key==='Enter')go()};
+    return;
+  }
+  let saved='';try{saved=localStorage.getItem('gardenTeacherPass')||''}catch(e){}
+  if(saved&&await tryLogin(saved))return enter(saved,true);
+  loginForm('');
+}
+function loginForm(msg){
+  gate(`<h2>🔒 교사 화면</h2><p>교사 비밀번호를 써 주세요.</p><input id="p1" type="password" placeholder="비밀번호">
+    <label><input type="checkbox" id="rem" checked> 이 기기에서 기억하기</label>
+    <button class="btn" id="go">들어가기</button><p class="err" id="err">${esc(msg)}</p>`);
+  const go=async()=>{const a=$('p1').value;const r=await fetch('/api/teacher/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:a})});
+    if(r.ok)return enter(a,$('rem').checked);const j=await r.json().catch(()=>({}));$('err').textContent=j.error||'다시 해 주세요.'};
+  $('go').onclick=go;$('p1').onkeydown=e=>{if(e.key==='Enter')go()};
+}
+async function tryLogin(pw){try{const r=await fetch('/api/teacher/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})});return r.ok}catch(e){return false}}
+function enter(pw,remember){
+  pass=pw;try{if(remember)localStorage.setItem('gardenTeacherPass',pw);else localStorage.removeItem('gardenTeacherPass')}catch(e){}
+  $('gate').classList.add('hidden');render();load();clearInterval(timer);timer=setInterval(load,2000);
+}
+function logout(){pass='';clearInterval(timer);try{localStorage.removeItem('gardenTeacherPass')}catch(e){}data={rooms:[],records:[]};$('panel').innerHTML='';loginForm('잠갔어요.')}
+async function changePass(){
+  const np=$('np').value;const r=await fetch('/api/teacher/change',{method:'POST',headers:H(),body:JSON.stringify({newPassword:np})});const j=await r.json();
+  if(!r.ok)return $('npMsg').textContent=j.error;
+  pass=np;try{if(localStorage.getItem('gardenTeacherPass'))localStorage.setItem('gardenTeacherPass',np)}catch(e){}
+  $('npMsg').style.color='#3f7d2c';$('npMsg').textContent='바꿨어요!';$('np').value='';
+}
+async function load(){
+  if(!pass)return;
+  try{const r=await fetch('/api/overview',{headers:H()});
+    if(r.status===401){const j=await r.json();clearInterval(timer);pass='';if(j.setup)return boot();return loginForm('비밀번호가 바뀌었거나 서버가 다시 시작됐어요. 다시 써 주세요.')}
+    data=await r.json();if(tab!=='guide')render()}catch(e){}
+}
+async function clearIt(what){await fetch('/api/clear',{method:'POST',headers:H(),body:JSON.stringify({what})});load()}
+function csv(){
+  const rows=[['이름','판','1등','정답','오답','정답률(%)','보낸 좀비'],...data.records.map(x=>[x.name,x.games,x.wins,x.correct,x.wrong,x.correct+x.wrong?Math.round(x.correct/(x.correct+x.wrong)*100):'',x.sent])];
+  const t='﻿'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download='정원대결_기록_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+boot();
+</script>
+</body>
+</html>
