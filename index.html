@@ -1,0 +1,256 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>과학 정원 지키기! - 3학년 지구와 바다</title><style>
+:root{font-family:'Trebuchet MS','Malgun Gothic',sans-serif;color:#28442c}*{box-sizing:border-box}body{margin:0;background:linear-gradient(#8ad3ee,#c9eefa 46%,#d4e9a4);min-height:100vh}button,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:disabled{opacity:.45;cursor:not-allowed}.wrap{max-width:1190px;margin:auto;padding:12px}.top{background:#fff8d8;border:4px solid #58793e;border-radius:22px;padding:12px 18px;box-shadow:0 6px 0 #7b9a58;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}h1{margin:0;font-size:clamp(21px,3vw,34px);color:#48783b;text-shadow:1px 2px #e7e8a4}.sub{font-size:13px;color:#67785d}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#f1f7d7;border:2px solid #b2c77c;border-radius:14px;padding:7px 11px;font-weight:900}.panel{background:#fffaf0;border:3px solid #829b54;border-radius:17px;box-shadow:0 5px 0 #a6b875;padding:12px}.layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:12px;margin-top:16px}.sidebar{display:flex;flex-direction:column;gap:10px}.plant{display:flex;align-items:center;gap:9px;background:#e6f6cb;border:3px solid #8eb363;border-radius:14px;width:100%;padding:7px;text-align:left;font-weight:900}.plant.sel{background:#fff0a0;border-color:#d9952b;transform:translateX(2px)}.plant img{width:56px;height:56px;object-fit:cover;object-position:left}.small{font-size:12px;font-weight:500}.primary{background:#f9c950;border:3px solid #bd8234;border-radius:14px;padding:12px;font-weight:900;color:#594117;box-shadow:0 4px 0 #a86f2b}.primary:active{transform:translateY(3px);box-shadow:0 1px 0 #a86f2b}.secondary{background:#def2d4;border:2px solid #79a665;border-radius:10px;padding:8px;font-weight:bold}.stagehead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}.boardbox{overflow-x:auto;border:5px solid #69883e;border-radius:16px;background:#a3d76d}.board{position:relative;min-width:660px;aspect-ratio: 9 / 5;background:repeating-linear-gradient(to bottom,#b9e17b 0%,#b9e17b 20%,#a7d46c 20%,#a7d46c 40%);overflow:hidden;touch-action:manipulation}.gridline{position:absolute;inset:0;display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(5,1fr);pointer-events:none}.gridline div{border:1px dashed #7eae54a0}.unit{will-change:background-position;backface-visibility:hidden;position:absolute;width:11.111%;height:20%;background-repeat:no-repeat;background-size:800% 100%;background-position:0 0;filter:drop-shadow(2px 5px 2px #436e3d70);pointer-events:none}.zombie{width:10%;height:20%}.hp{position:absolute;left:16%;right:16%;bottom:3%;height:5px;background:#5a3b2d;border-radius:4px;overflow:hidden}.hp>i{display:block;height:100%;background:#69d65b}.projectile{will-change:left;position:absolute;width:17px;height:17px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#eaff8a,#7ab32e 65%,#436c20);box-shadow:0 0 8px #ecff96;pointer-events:none}.lawnmower{position:absolute;left:0;width:3%;height:13%;background:#db6646;border:2px solid #8d3529;border-radius:5px;z-index:2}.lawnmower:after{content:'⚙';font-size:16px;position:absolute;bottom:-10px}.hint{margin-top:10px;line-height:1.6;font-size:14px}.footer{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}.overlay{position:fixed;inset:0;background:#142b1fbb;display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}.hidden{display:none!important}.modal{background:#fffef0;border:5px solid #83a456;border-radius:22px;box-shadow:0 10px 0 #395b32;max-width:620px;width:100%;padding:24px;max-height:95vh;overflow-y:auto}.modal h2{margin:0 0 10px;font-size:25px;color:#436e32}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}.answer{padding:13px;border:3px solid #9dbf7c;border-radius:12px;background:#e9f6d7;min-height:68px;font-weight:900;text-align:left}.answer.correct{background:#c1f5a3;border-color:#368b4a}.answer.wrong{background:#ffcebe;border-color:#d64c42}.explain{padding:12px;background:#f2f2cf;border-radius:12px;line-height:1.5}.choice{display:flex;gap:8px;flex-wrap:wrap}.choice button{flex:1;min-width:130px}.progress{height:12px;background:#d7e4b7;border-radius:10px;overflow:hidden}.progress>div{height:100%;background:#78b94c;width:0%}.float{position:absolute;z-index:4;font-weight:900;color:#fff;text-shadow:0 2px 4px #234;pointer-events:none;animation:rise .75s forwards}@keyframes rise{to{transform:translateY(-36px);opacity:0}}@media(max-width:800px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:repeat(3,1fr)}.plant{font-size:12px;padding:4px;gap:3px}.plant img{width:40px;height:40px}.answers{grid-template-columns:1fr}.modal{padding:15px}}
+
+/* Grade 3 accessible UI / GitHub Pages edition */
+:root{font-family:'Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif}
+body{background:linear-gradient(180deg,#a6e4fb 0%,#f4f9d8 100%);}
+.wrap{max-width:1260px;padding:clamp(8px,2vw,22px)}
+.top{border-radius:22px;background:#fffbed}
+.sub{font-size:clamp(13px,1.5vw,17px)}
+.stat{font-size:clamp(14px,1.8vw,20px)}
+.plant{min-height:76px;font-size:16px}
+.plant .small{font-size:13px;line-height:1.5}
+.primary,.secondary,.answer{font-size:clamp(16px,2vw,21px);min-height:48px}
+.answer{line-height:1.5}
+.modal{max-width:760px}
+.modal h3{font-size:clamp(20px,3vw,27px);line-height:1.45;margin:14px 0}
+.explain{font-size:19px;line-height:1.65}
+.hint{font-size:16px}
+.board{min-width:0;width:100%;aspect-ratio:9/5}
+.boardbox{overflow:hidden}
+.quiz-art{width:100%;height:clamp(135px,23vh,220px);display:block;background:#eaf8ff;border:3px solid #bad9d2;border-radius:18px;margin:12px 0;object-fit:contain}
+.quiz-art text{font-family:'Malgun Gothic',sans-serif}
+#quizBtn{max-width:100%;white-space:normal}
+.progress{height:16px}
+#studyPanel{margin-top:14px;padding:12px 16px;background:#fff9dc;border:2px solid #c9dba0;border-radius:14px;line-height:1.6;font-size:15px}
+#studyPanel strong{color:#426d36}
+#resetProgress{font-size:13px;min-height:38px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.plant{min-height:72px;gap:3px}.plant img{width:43px;height:43px}.board{aspect-ratio:9/5}.modal{padding:18px}.answers{grid-template-columns:1fr 1fr}}
+@media(max-width:530px){.sidebar{grid-template-columns:repeat(2,minmax(0,1fr))}.plant{font-size:14px}.plant img{width:36px;height:36px}.answers{grid-template-columns:1fr}.answer{min-height:54px}.top{padding:12px}.board{min-width:0}.quiz-art{height:150px}.modal h3{font-size:21px}}
+@media(prefers-reduced-motion:reduce){.float{animation:none}.plant.sel{transform:none}}
+
+/* Visual upgrade: layered comic lawn, tactile seed cards, fullscreen play */
+body{background:radial-gradient(ellipse at 50% 0%,#dff7ff 0%,#8dcfea 55%,#70b58b 100%);background-attachment:fixed}
+.wrap{max-width:1450px}.top{border:5px solid #704b2e;background:linear-gradient(#fff9e4,#f4e4b7);box-shadow:0 7px 0 #4f6a3e,0 12px 25px #34572b50}
+h1{color:#477a2d;text-shadow:1px 2px 0 #fff,2px 3px 0 #d1bc6b}.panel{border:5px solid #7b5836;background:linear-gradient(#fff9e6,#f2e6c6);box-shadow:0 7px 0 #624b2c,0 12px 18px #294d2750}
+.plant{background:linear-gradient(135deg,#f5f4d8,#b9d5a3);border:4px solid #6d5738;box-shadow:0 4px 0 #5d452e,0 7px 10px #31491e40;transition:transform .12s,filter .12s}
+.plant:hover{filter:brightness(1.06)}.plant.sel{background:linear-gradient(#fff8bf,#f6d36e);border-color:#b66e20;transform:translateY(2px);box-shadow:0 2px 0 #8e551d}
+.plant img{object-fit:contain;image-rendering:auto;filter:drop-shadow(1px 3px 2px #31471c70)}
+.boardbox{border:8px solid #755032;border-radius:14px;box-shadow:inset 0 0 0 3px #ad8352,0 7px 0 #4e3927,0 12px 16px #243d1d55;background:#4e873b}
+.board{isolation:isolate;background:repeating-linear-gradient(to bottom,#8bc65b 0%,#8bc65b 20%,#76b44c 20%,#76b44c 40%)}
+.board:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(90deg,transparent 0%,transparent 11.04%,#426e2b33 11.09%,transparent 11.15%),repeating-linear-gradient(0deg,transparent 0%,transparent 19.8%,#4c772d55 19.9%,transparent 20%);box-shadow:inset 0 14px 22px #2d6a2966,inset 0 -8px 14px #285a2666}
+.board:after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.32;background-image:radial-gradient(#d8f59e 1px,transparent 1.5px),radial-gradient(#376b27 1px,transparent 1.5px);background-size:31px 27px,41px 35px;background-position:7px 8px,20px 17px}
+.gridline{z-index:1}.gridline div{border:1px solid #315c2533}.unit{z-index:3;transform:translateZ(0);image-rendering:auto;filter:drop-shadow(1px 5px 2px #23471b80);contain:layout style paint}.zombie{z-index:4}.projectile{z-index:5}.lawnmower{z-index:6;background:linear-gradient(120deg,#ff9870,#be382a);border:2px solid #763528;box-shadow:0 3px 3px #264a2866}
+.stagehead strong{font-size:clamp(18px,2.1vw,25px);color:#57401e}.progress{border:2px solid #745531;background:#d8c99e;height:20px}.progress>div{background:linear-gradient(#b9ed61,#5d9f32);transition:width .2s}
+.primary{background:linear-gradient(#ffe987,#f5b942);border-color:#a56a23;box-shadow:0 4px 0 #7d4a20}.secondary{background:linear-gradient(#f5f3d4,#c6dfa7);border:2px solid #6b8349;box-shadow:0 3px 0 #71824d}
+.fullscreen-toggle{position:fixed;top:12px;right:12px;z-index:30;display:flex;align-items:center;gap:7px;border:3px solid #684c2b;border-radius:12px;background:linear-gradient(#fff6c5,#f4c65d);box-shadow:0 4px 0 #5c442c;padding:10px 14px;font-size:16px;font-weight:900;color:#49341b}
+.fullscreen-toggle:focus-visible{outline:4px solid #227bc7;outline-offset:3px}
+body:fullscreen,body:-webkit-full-screen{overflow:auto;background:#b0d9a0}body:fullscreen .wrap{max-width:1800px}
+@media(max-width:900px){.fullscreen-toggle{top:6px;right:6px;padding:7px 9px;font-size:13px}.top{padding-right:100px}.plant{min-height:68px}}
+@media(max-width:540px){.fullscreen-toggle{position:fixed;font-size:12px;padding:6px 8px}.top{padding-right:84px}.boardbox{border-width:5px}.plant{border-width:3px}}
+
+/* Illustrated science defense edition */
+body{background:linear-gradient(#79cbea 0%,#d5f4fb 34%,#b9dd82 80%);background-attachment:fixed}
+.top{background:linear-gradient(125deg,#fff7da,#f7e1ac);border-color:#815631;box-shadow:0 6px 0 #5b432b,0 12px 30px #234e2c55}
+.panel{background:linear-gradient(#fff8df,#f6e7c5);border-color:#805633}
+.boardbox{border:8px solid #81562d;box-shadow:inset 0 0 0 3px #b58c4b,0 7px 0 #51381e,0 14px 24px #233c1e6b}
+.board{background:repeating-linear-gradient(to bottom,#9cd76d 0%,#9cd76d 20%,#86c35c 20%,#86c35c 40%)}
+.board:before{background:repeating-linear-gradient(90deg,transparent 0%,transparent 11.04%,#497d2b38 11.1%,transparent 11.16%),repeating-linear-gradient(0deg,transparent 0%,transparent 19.8%,#4a802e48 19.9%,transparent 20%);box-shadow:inset 0 13px 20px #35692a55}
+.board:after{opacity:.3;background-image:radial-gradient(ellipse,#d9f8a7 1.5px,transparent 2px),radial-gradient(ellipse,#3b792b 1px,transparent 2px);background-size:29px 23px,37px 33px}
+.unit{filter:drop-shadow(1px 5px 2px #224c2088);background-size:800% 100%;image-rendering:auto}
+.plant img{object-fit:contain;object-position:center;filter:drop-shadow(0 3px 2px #3a512c55)}
+.plant{background:linear-gradient(120deg,#fff4ce,#c9e6a4);border-color:#765532}
+.plant.sel{background:linear-gradient(#fff6af,#f5ce61);border-color:#bc7b29}
+.lawnmower{background:linear-gradient(135deg,#ff9b5e,#d63f32);border-radius:7px}
+.projectile{border:2px solid #497b2c;box-shadow:0 0 8px #edff95, inset -3px -3px 3px #467b26}
+#feedback{font-weight:700;color:#42652b}
+.fullscreen-toggle{top:10px;right:10px}
+@media(max-width:900px){.fullscreen-toggle{font-size:13px;padding:7px 10px}}
+
+/* Responsive landscape classroom layout: entire game stays within the viewport */
+html,body{width:100%;margin:0;overflow-x:hidden}
+.wrap{max-width:1480px;width:100%;padding:8px 12px 12px}
+.top{min-height:58px;padding:7px 15px;padding-right:135px;gap:5px}
+.top h1{font-size:clamp(18px,2.1vw,27px)}.top .sub{font-size:clamp(10px,1vw,13px)}
+.stat{padding:4px 8px;font-size:clamp(12px,1.25vw,16px)}
+.layout{grid-template-columns:clamp(145px,16vw,190px) minmax(0,1fr);gap:9px;margin-top:9px}
+.panel{min-width:0;padding:8px 10px}.sidebar{display:grid;grid-template-columns:1fr;gap:5px;align-content:start}
+.plant{min-height:0;padding:3px 5px;font-size:clamp(11px,1.15vw,14px);gap:5px;border-width:2px;border-radius:10px}
+.plant img{width:clamp(36px,4.2vw,48px);height:clamp(36px,4.2vw,48px);flex-shrink:0}
+.plant .small{font-size:clamp(9px,.95vw,12px);line-height:1.15}
+.stagehead{margin-bottom:5px}.stagehead strong{font-size:clamp(13px,1.45vw,18px)}
+.stagehead .small{font-size:11px}.primary{min-height:36px;padding:5px 9px;font-size:clamp(12px,1.3vw,16px)}
+.progress{height:9px}.boardbox{margin-top:5px!important;border-width:5px}
+.board{width:100%;min-width:0;aspect-ratio:9/5;max-height:calc(100dvh - 240px);min-height:180px}
+.footer{margin-top:7px;gap:5px}.footer .secondary{padding:4px 7px;min-height:30px;font-size:12px}
+#studyPanel{margin-top:6px;padding:5px 8px;font-size:12px}.hint{margin:5px 0 0;font-size:12px;line-height:1.3}
+.fullscreen-toggle{position:fixed!important;top:8px!important;right:12px!important;z-index:30!important;padding:8px 11px!important;font-size:13px!important}
+.fusion-badge{position:absolute;top:2%;right:1%;font-size:10px;background:#ffdd66;border:1px solid #a56b12;border-radius:7px;padding:1px 3px;color:#51360c;font-weight:900}
+.unit.fused{filter:drop-shadow(0 0 6px #ffe74c) drop-shadow(0 4px 3px #355c24)!important}
+@media (min-width:850px) and (max-height:850px){
+ .wrap{padding:4px 10px}.top{min-height:45px;padding-top:3px;padding-bottom:3px}
+ .layout{margin-top:6px}.board{max-height:calc(100dvh - 195px)}
+ .plant img{width:34px;height:34px}.plant{padding:2px 5px}.plant .small{font-size:10px}
+ .panel{padding:5px 8px}.hint{display:none}#studyPanel{padding:3px 6px}
+}
+@media(max-width:849px){.layout{grid-template-columns:1fr}.sidebar{grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+ .plant{display:flex;flex-direction:column;justify-content:center;text-align:center;gap:1px;padding:2px;min-width:0}
+ .plant img{width:clamp(28px,5vw,45px);height:clamp(28px,5vw,45px)}.plant .small{font-size:9px}
+ .board{max-height:none;min-height:0}.top{padding-right:120px}.hint{display:none}
+}
+@media(max-width:540px){.sidebar{grid-template-columns:repeat(3,minmax(0,1fr))}.plant{flex-direction:row}.plant img{width:32px;height:32px}.top{padding-right:8px;padding-top:47px}.stagehead{gap:5px}.footer .secondary{font-size:11px}}
+@media (orientation:landscape) and (max-height:600px){.top .sub,.hint,#studyPanel{display:none}.board{max-height:calc(100dvh - 160px)}.plant img{width:29px;height:29px}.plant{font-size:11px}.plant .small{font-size:9px}.top{min-height:38px}}
+
+/* Illustrated scene integration: use generated art as atmospheric UI, not as fake interactive units. */
+.top{position:relative;overflow:hidden;isolation:isolate;min-height:96px}
+.top::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,249,224,.97),rgba(255,247,220,.92) 48%,rgba(255,244,208,.58)),url("assets/science_scene.jpg") center 38%/cover no-repeat;z-index:-1;pointer-events:none}
+.top h1{color:#416827;text-shadow:0 2px 0 #fff5cd,1px 3px 1px #fff}
+.board{background:repeating-linear-gradient(to bottom,#9bd46c 0%,#9bd46c 20%,#81bd54 20%,#81bd54 40%)}
+.boardbox{position:relative}
+.boardbox::after{content:"";position:absolute;right:0;top:0;bottom:0;width:19%;background:linear-gradient(90deg,transparent,rgba(80,158,189,.12)),url("assets/coastal_atmosphere.jpg") center/cover;opacity:.22;pointer-events:none;z-index:0}
+.board{z-index:1}
+.scene-preview{display:block;width:100%;max-height:225px;object-fit:cover;object-position:center 47%;border:4px solid #8d653a;border-radius:14px;margin:12px 0;box-shadow:0 4px 12px #42331c55}
+.modal{background:linear-gradient(#fff9e7,#f7e7bd);border-color:#825a35}
+.modal h2{color:#654524}
+.plant:focus-visible,.primary:focus-visible,.secondary:focus-visible,.answer:focus-visible{outline:4px solid #198bcb;outline-offset:2px}
+@media(max-height:680px) and (orientation:landscape){.top{min-height:56px}.scene-preview{max-height:110px}.modal{padding:12px}}
+
+/* Deluxe animated character integration */
+.board{background-size:cover;background-position:center;background-repeat:no-repeat;min-width:0!important}
+.boardbox{overflow:hidden!important}
+.unit{background-size:800% 100%!important;transition:filter .16s ease;transform:translateZ(0);}
+.plant img{object-fit:contain!important;object-position:center!important;}
+.plant{transition:background .15s ease,box-shadow .15s ease}
+.plant:hover{box-shadow:inset 0 0 0 2px #fbe57c}
+.board:before{pointer-events:none}
+.board:after{pointer-events:none}
+@media(max-width:760px){.wrap{padding:5px}.layout{gap:6px;margin-top:8px}.sidebar{gap:5px}.panel{padding:6px}.top{padding:7px}.boardbox{border-width:4px}.plant{min-width:0}.plant img{width:32px;height:32px}.plant .small{font-size:10px}}
+@media(max-height:740px) and (min-width:850px){.wrap{max-width:1200px;padding:5px}.top{padding:5px 10px}.layout{margin-top:7px}.panel{padding:7px}.plant{padding:3px}.plant img{width:36px;height:36px}.hint{margin-top:4px}.footer{margin-top:4px}}
+
+/* Connected concept edition: seed deck + 5-lane battlefield + compact science HUD */
+:root{--wood:#6a3e20;--wood-light:#bd8047;--cream:#fff4d2}
+html,body{min-height:100%;background:#80b6a2}
+.wrap{max-width:1600px;padding:8px 10px 14px}
+.top{background:linear-gradient(100deg,#8c532a,#c58a4b 45%,#86502c);border:4px solid #523018;box-shadow:inset 0 3px #e0a96b,0 4px #382313;color:#fff4d9;min-height:60px;padding:6px 150px 6px 12px;border-radius:14px}
+.top h1{color:#fff5b7;text-shadow:2px 3px #4e3019;font-size:clamp(19px,2.1vw,28px)}
+.top .sub{color:#fff4dc}.stat{background:#fff0bd;border:3px solid #86501f;color:#4a321e;box-shadow:inset 0 2px #fff9e6}
+.layout{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.sidebar{display:flex!important;flex-direction:row!important;grid-template-columns:none!important;overflow-x:auto;overflow-y:hidden;gap:6px;background:linear-gradient(#a46b3b,#754523);padding:7px;border:5px solid #53331f;border-radius:14px;box-shadow:inset 0 2px #d69b64,0 5px #422716;scrollbar-width:thin;min-height:98px;align-items:stretch}
+.plant{flex:0 0 clamp(90px,10.2vw,140px);min-height:84px!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;padding:4px 3px;border:3px solid #67451f;border-radius:7px;background:linear-gradient(#f8f5d6,#c1dda4);box-shadow:inset 0 2px #fff,0 2px #4d301c;font-size:clamp(11px,1vw,14px)!important;line-height:1.15}
+.plant img{width:clamp(35px,4vw,55px)!important;height:clamp(35px,4vw,55px)!important;object-fit:contain}
+.plant .small{font-size:11px!important}.plant.sel{outline:3px solid #ffe058;outline-offset:-1px;transform:none}
+.panel{padding:8px;border:6px solid #79502d;background:linear-gradient(#e9d0a1,#f6e6c1);border-radius:14px;box-shadow:inset 0 2px #ffefcb,0 6px #53331d}
+.stagehead{margin-bottom:6px;gap:5px}.stagehead strong{color:#53331b;font-size:clamp(16px,1.6vw,22px)}
+.boardbox{margin-top:5px!important;border:5px solid #654021;border-radius:8px;box-shadow:0 5px #49301c}
+.board{aspect-ratio: 9/4.7;max-height:calc(100dvh - 295px);min-height:180px;background-position:center;background-size:cover}
+.board:before{background:repeating-linear-gradient(90deg,transparent 0%,transparent 11.05%,#285d2930 11.1%,transparent 11.15%),repeating-linear-gradient(0deg,transparent 0%,transparent 19.8%,#3c6a2d55 19.9%,transparent 20%)}
+.board:after{opacity:.18}
+.unit{background-size:800% 100%;filter:drop-shadow(2px 5px 2px #153a1b8a)}
+.projectile{box-shadow:0 0 8px 3px #e9ff8a;z-index:7}
+.footer{margin-top:8px}.footer .secondary{background:linear-gradient(#f8d88d,#c48a40);border:2px solid #76502a;color:#51341c;box-shadow:0 2px #654021;font-weight:900}
+#studyPanel{background:#fff1cb;border-color:#caa76b;color:#5d4327}.hint{display:none}
+.fullscreen-toggle{position:fixed!important;top:9px!important;right:12px!important;z-index:40!important;background:linear-gradient(#477a9b,#244e75)!important;border:3px solid #1d354c!important;color:white!important;box-shadow:0 3px #152d43!important}
+.modal{border:7px solid #7a4d27;background:linear-gradient(#fff6dd,#f2d8a3);box-shadow:0 8px #4d321c}
+.answer{border-color:#a7773e;background:#fff0c4}.answer:hover{background:#fff6df}
+@media(max-width:850px){.top{padding-right:120px}.sidebar{min-height:82px}.plant{flex-basis:93px}.plant img{width:34px!important;height:34px!important}.board{max-height:calc(100dvh - 270px)}.top .sub{display:none}.footer #feedback{display:none}}
+@media(max-width:600px){.wrap{padding:4px}.top{padding:5px 105px 5px 7px}.top h1{font-size:16px}.stats{gap:2px}.stat{font-size:11px;padding:2px 4px}.sidebar{padding:4px;min-height:73px}.plant{flex-basis:80px;min-height:70px!important;font-size:11px!important}.plant img{width:29px!important;height:29px!important}.plant .small{font-size:9px!important}.panel{padding:5px}.board{max-height:calc(100dvh - 240px)}.fullscreen-toggle{font-size:11px!important;padding:6px!important}.stagehead .primary{font-size:12px!important}.modal{max-height:95dvh}}
+@media(orientation:landscape) and (max-height:650px){.top{min-height:40px}.sidebar{min-height:63px;padding:3px}.plant{min-height:55px!important;flex-basis:100px;flex-direction:row;gap:3px}.plant img{height:32px!important;width:32px!important}.plant .small{font-size:9px!important}.stagehead{margin-bottom:3px}.board{max-height:calc(100dvh - 198px);min-height:140px}.footer{margin-top:4px}#studyPanel{display:none}}
+</style></head><body><button id="fullscreenBtn" class="fullscreen-toggle" type="button" aria-label="전체화면으로 전환">⛶ 전체화면</button><div class="wrap"><header class="top"><div><h1>🌻 과학 정원 지키기!</h1><div class="sub">3학년 과학 · 지구와 바다 · 혼자서 즐기는 복습 디펜스</div></div><div class="stats"><div class="stat">☀️ <span id="sun">150</span></div><div class="stat">❤️ <span id="lives">5</span></div><div class="stat">⭐ <span id="score">0</span></div></div></header><main class="layout"><aside class="sidebar" id="plants" aria-label="식물 카드 덱"></aside><section class="panel"><div class="stagehead"><div><strong id="stageTitle">1단계 · 지구를 둘러싼 대기</strong><div class="small" id="status">시작 버튼을 눌러주세요.</div></div><button class="primary" id="quizBtn">📘 과학 문제 풀기 (+50 ☀️)</button></div><div class="progress"><div id="progress"></div></div><div class="boardbox" style="margin-top:10px"><div class="board" id="board" aria-label="5줄 9칸 식물 디펜스 전투장"><div class="gridline" id="grid"></div></div></div><div class="footer"><button class="secondary" id="startBtn">▶ 게임 시작</button><button class="secondary" id="pauseBtn">⏸ 일시정지</button><button class="secondary" id="restartBtn">↻ 처음부터</button><button class="secondary" id="resetProgress" title="이 기기의 최고 기록을 지웁니다">기록 초기화</button><label class="small"><input type="checkbox" id="sound" checked> 효과음</label><span class="small" id="feedback">식물을 고르고 잔디밭을 누르세요. 같은 칸에 다른 식물을 심으면 융합할 수 있어요!</span></div><div id="studyPanel" role="status"><strong>📚 오늘의 복습</strong> · 문제를 풀고 과학 지식을 모아 보세요! <span id="bestRecord"></span></div><p class="hint">🌻 콩 발사기+얼음꽃 또는 불꽃 고추를 같은 칸에 심으면 융합해요. 태양꽃은 태양을 만들고, 🌱 콩 발사기는 좀비를 공격해요. 과학 문제를 풀어 태양을 얻으세요! 문제를 푸는 동안에는 게임이 멈춰요. 틀린 문제도 다시 공부할 수 있어요.</p></section></main></div><div class="overlay" id="overlay"><div class="modal" id="modal"></div></div><script>
+
+const STAGE_SCENES=[
+`<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#79cdf5"/><stop offset="1" stop-color="#e9f8ff"/></linearGradient></defs><rect width="640" height="220" fill="url(#sky)"/><circle cx="535" cy="45" r="29" fill="#ffdd61"/><g fill="#fff" opacity=".95"><ellipse cx="105" cy="62" rx="75" ry="23"/><ellipse cx="150" cy="52" rx="45" ry="29"/><ellipse cx="420" cy="105" rx="80" ry="21"/></g><path d="M0 186 Q160 156 320 184 T640 182 V220 H0Z" fill="#9dd27b"/><path d="M200 124 Q240 105 275 124" fill="none" stroke="#317db8" stroke-width="6" stroke-linecap="round"/><path d="M263 110 L280 126 L259 136" fill="none" stroke="#317db8" stroke-width="6" stroke-linecap="round"/><path d="M290 154 Q335 130 380 150" fill="none" stroke="#317db8" stroke-width="6" stroke-linecap="round"/><text x="22" y="205" font-size="21" fill="#2c603b" font-weight="bold">우리 주변에는 보이지 않는 공기가 있어요!</text>`,
+`<rect width="640" height="220" fill="#b8e9ff"/><circle cx="565" cy="37" r="28" fill="#ffda62"/><path d="M0 177 L130 42 L235 174 L344 65 L469 175 L640 110 V220 H0Z" fill="#88b48b"/><path d="M80 98 L130 42 L180 98" fill="#fff"/><path d="M308 110 L344 65 L379 112" fill="#fff"/><path d="M0 181 Q160 155 325 189 T640 176 V220 H0Z" fill="#80c76d"/><path d="M365 220 Q335 170 440 135 T620 135" fill="none" stroke="#5cb6ec" stroke-width="35"/><path d="M365 220 Q335 170 440 135 T620 135" fill="none" stroke="#c2ecff" stroke-width="4"/><text x="20" y="208" font-size="22" font-weight="bold" fill="#285e35">산 · 들 · 강 · 호수</text>`,
+`<rect width="640" height="220" fill="#e9f9ff"/><circle cx="320" cy="109" r="99" fill="#59baf0" stroke="#2b83b6" stroke-width="5"/><path d="M269 20 L324 30 L341 58 L311 81 L329 111 L294 130 L264 115 L247 73Z" fill="#8cce78"/><path d="M358 102 L403 91 L418 120 L394 156 L376 187 L352 164 L365 135Z" fill="#8cce78"/><path d="M266 150 L291 140 L316 171 L293 199 L265 187Z" fill="#8cce78"/><text x="20" y="48" font-size="26" fill="#467a40" font-weight="bold">육지</text><path d="M88 55 L254 88" stroke="#467a40" stroke-width="4"/><text x="515" y="48" font-size="26" fill="#1875b2" font-weight="bold">바다</text><path d="M514 56 L390 75" stroke="#1875b2" stroke-width="4"/><text x="24" y="206" font-size="19" fill="#376878">지구에는 육지보다 바다가 더 넓어요.</text>`,
+`<rect width="640" height="220" fill="#e6f9fc"/><path d="M0 185 Q130 155 270 186 T640 186 V220 H0Z" fill="#b6e7b2"/><g transform="translate(135 36)"><path d="M-65 42 H65 L46 150 H-46Z" fill="#bfe9f9" stroke="#6b9ba8" stroke-width="5"/><path d="M-57 77 H57 L44 145 H-44Z" fill="#69bfe4"/><text x="0" y="187" text-anchor="middle" font-size="24" fill="#2d667f" font-weight="bold">바닷물</text></g><g transform="translate(475 36)"><path d="M-65 42 H65 L46 150 H-46Z" fill="#d8f6ff" stroke="#6b9ba8" stroke-width="5"/><path d="M-57 77 H57 L44 145 H-44Z" fill="#95d7f1"/><text x="0" y="187" text-anchor="middle" font-size="24" fill="#2d667f" font-weight="bold">육지의 물</text></g><g fill="#fff" stroke="#c2d3d6" stroke-width="2"><circle cx="110" cy="128" r="5"/><circle cx="143" cy="147" r="5"/><circle cx="168" cy="113" r="5"/></g>`,
+`<rect width="640" height="220" fill="#a9e3fc"/><path d="M0 106 Q180 95 355 112 T640 104 V220 H0Z" fill="#60c6ed"/><path d="M0 138 Q145 118 245 146 T475 135 T640 146" fill="none" stroke="#fff" stroke-width="5" opacity=".8"/><path d="M0 174 Q145 141 287 178 L365 220 H0Z" fill="#f2d18e"/><path d="M455 15 L640 15 V220 H532 L518 145 L472 130 L490 85Z" fill="#a6a099"/><path d="M490 85 L640 84 V116 H478Z" fill="#d0b8a0"/><path d="M528 180 Q546 143 582 157 L610 220 H528Z" fill="#4b5457"/><path d="M543 182 Q562 163 580 175 L589 220 H542Z" fill="#253e4c"/><text x="24" y="38" font-size="25" fill="#245b77" font-weight="bold">모래 해변</text><text x="503" y="38" font-size="22" fill="#354b56" font-weight="bold">절벽</text><text x="530" y="206" font-size="19" fill="white" font-weight="bold">동굴</text>`
+];
+function questionArt(q){const n=Number(q.stage)-1;return `<svg class="quiz-art" viewBox="0 0 640 220" role="img" aria-label="${['대기와 바람','산과 강','육지와 바다가 보이는 지구','바닷물과 육지의 물 비교','해변과 절벽과 동굴'][n]||'과학 그림'}" xmlns="http://www.w3.org/2000/svg">${STAGE_SCENES[n]||STAGE_SCENES[0]}</svg>`}
+function updateRecord(){try{let d=JSON.parse(localStorage.getItem('scienceGardenBest')||'{}');$('bestRecord').textContent=d.score?`🏅 이 기기의 최고 점수 ${d.score}점 · 최고 단계 ${d.stage||1}`:''}catch(e){}}
+function saveRecord(){try{let d=JSON.parse(localStorage.getItem('scienceGardenBest')||'{}');if(score>(d.score||0)||stage+1>(d.stage||0)){localStorage.setItem('scienceGardenBest',JSON.stringify({score:Math.max(score,d.score||0),stage:Math.max(stage+1,d.stage||0)}))}updateRecord()}catch(e){}}
+
+const STAGES=['지구를 둘러싼 대기','지구 표면의 여러 모습','육지와 바다','바닷물과 육지의 물','바닷가의 여러 지형'];
+const PLANTS=[{id:'sun',name:'태양꽃',cost:50,hp:95,desc:'12초마다 태양 +25'},{id:'pea',name:'콩 발사기',cost:100,hp:100,desc:'콩알 공격'},{id:'wall',name:'튼튼 호두',cost:50,hp:430,desc:'좀비 길 막기'},{id:'ice',name:'얼음꽃',cost:125,hp:90,desc:'좀비 느리게'},{id:'cactus',name:'선인장',cost:150,hp:105,desc:'강한 공격'},{id:'fire',name:'불꽃 고추',cost:175,hp:80,desc:'빠른 불꽃 공격'}];
+const ZS=[{id:'zombie',hp:120,speed:10},{id:'bucket',hp:240,speed:7}];
+const $=id=>document.getElementById(id);let questions=[],state='menu',sun=150,lives=5,score=0,stage=0,elapsed=0,spawned=0,killed=0,plants=[],zombies=[],shots=[],selected='pea',last=0,quizOpen=false,quizCount=0,correct=0,wrong=0,asked=new Set(),activeQuestion=null,pausedFrom='playing',mowers=[true,true,true,true,true],particleId=0;
+const stageDuration=80, spawnGoal=12;
+function sprite(id,mode='idle'){return `assets/${id}_${mode}.png`}
+function renderPlants(){ $('plants').innerHTML=PLANTS.map(p=>`<button class="plant ${selected===p.id?'sel':''}" data-plant="${p.id}"><img src="assets/${p.id}_portrait.png"><span>${p.name}<br><span class="small">☀️ ${p.cost}<br>${p.desc}</span></span></button>`).join('');document.querySelectorAll('[data-plant]').forEach(b=>b.onclick=()=>{selected=b.dataset.plant;renderPlants()})}
+function ui(){ $('sun').textContent=sun;$('lives').textContent=lives;$('score').textContent=score;$('stageTitle').textContent=`${stage+1}단계 · ${STAGES[stage]}`;$('status').textContent=`좀비 ${killed}/${spawnGoal}마리 처치 · 문제 ${correct}개 정답`;$('progress').style.width=Math.min(100,elapsed/stageDuration*100)+'%';$('quizBtn').disabled=state!=='playing'||quizOpen; }
+function sound(freq=500){if(!$('sound').checked)return;try{const a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.08,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.13);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.13);setTimeout(()=>a.close(),300)}catch(e){}}
+function modal(html){$('modal').innerHTML=html;$('overlay').classList.remove('hidden')}
+function closeModal(){ $('overlay').classList.add('hidden') }
+function intro(){modal(`<h2>🌎 과학 정원에 오신 걸 환영해요!</h2><img class="scene-preview" src="assets/science_scene.jpg" alt="식물들이 과학 정원을 지키는 게임 디자인 일러스트"><p>지구와 바다에 관한 과학 문제를 풀고, 식물을 심어 좀비를 막아 보세요. 아래 그림은 게임의 일러스트 시안이며 실제 전투는 움직이는 캐릭터로 진행됩니다.</p><p><b>5개 단계 · 총 40개 복습 문제 · 혼자 플레이</b></p><p>정답 ☀️ +50 / 오답 ☀️ +15 (정답 설명 확인 후) · 문제를 풀 때 게임 정지</p><div class="choice"><button class="primary" onclick="startGame()">🌱 모험 시작!</button></div>`)}
+function startGame(){quizOpen=false;activeQuestion=null;sun=150;lives=5;score=0;stage=0;quizCount=0;correct=0;wrong=0;asked=new Set();startStage();closeModal()}
+function startStage(){plants=[];zombies=[];shots=[];elapsed=0;spawned=0;killed=0;mowers=[true,true,true,true,true];state='playing';sun=Math.max(sun,100);$('board').style.backgroundImage=`linear-gradient(90deg,rgba(117,193,75,.65),rgba(117,193,75,.45)),url("assets/stage_${stage+1}_background.jpg")`;ui();draw();$('feedback').textContent='과학 문제를 풀고 태양을 모아 식물을 심으세요!'}
+function pause(){if(quizOpen)return;if(state==='playing'){state='paused';$('pauseBtn').textContent='▶ 계속하기'}else if(state==='paused'){state='playing';$('pauseBtn').textContent='⏸ 일시정지'}}
+function nextStage(){saveRecord();if(stage===4){state='won';modal(`<h2>🏆 과학 정원 지키기 성공!</h2><p>모든 바닷가 지형까지 복습했어요. 정말 멋져요!</p><p>⭐ 점수 ${score} · 정답 ${correct}개 · 오답 ${wrong}개</p><button class="primary" onclick="startGame()">다시 도전하기</button>`);return}stage++;sun+=100;startStage();modal(`<h2>🎉 ${stage}단계 통과!</h2><p>다음은 <b>${STAGES[stage]}</b>에 대해 알아볼 거예요.</p><p>새 단계 보너스: ☀️ +100</p><button class="primary" onclick="closeModal()">다음 단계 시작!</button>`)}
+function quiz(){if(state!=='playing'||quizOpen)return;quizOpen=true;const pool=questions.filter(q=>q.stage===stage+1);let candidates=pool.filter(q=>!asked.has(questions.indexOf(q)));if(!candidates.length){pool.forEach(q=>asked.delete(questions.indexOf(q)));candidates=pool}activeQuestion=candidates[Math.floor(Math.random()*candidates.length)];asked.add(questions.indexOf(activeQuestion));modal(`<h2>🔍 과학 탐험 퀴즈</h2><p class="small">${stage+1}단계 · ${STAGES[stage]}</p>${questionArt(activeQuestion)}<h3>${activeQuestion.q}</h3><div class="answers">${activeQuestion.options.map((o,i)=>`<button class="answer" data-a="${i}">${i+1}. ${o}</button>`).join('')}</div><div id="result"></div>`);document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>answer(+b.dataset.a))}
+function answer(n){if(!quizOpen||!activeQuestion||$('result').dataset.done)return;const good=n===activeQuestion.answer;good?(sun+=50,correct++,score+=100,sound(700)):(sun+=15,wrong++,sound(250));quizCount++;document.querySelectorAll('[data-a]').forEach(b=>{b.disabled=true;if(+b.dataset.a===activeQuestion.answer)b.classList.add('correct');else if(+b.dataset.a===n)b.classList.add('wrong')});$('result').dataset.done='1';$('result').innerHTML=`<div class="explain"><b>${good?'🎉 정답이에요! ☀️ +50':'🌱 괜찮아요! 정답은 '+(activeQuestion.answer+1)+'번이에요. ☀️ +15'}</b><p>${activeQuestion.explain}</p></div><button class="primary" style="margin-top:12px;width:100%" id="continue">정원으로 돌아가기</button>`;$('continue').onclick=()=>{quizOpen=false;activeQuestion=null;closeModal();ui()}}
+function plantAt(x,y){if(state!=='playing'||quizOpen||!$('overlay').classList.contains('hidden'))return;const col=Math.floor(x*9),row=Math.floor(y*5);if(col<0||col>8||row<0||row>4)return;const p=PLANTS.find(p=>p.id===selected);const occupied=plants.find(t=>t.col===col&&t.row===row);if(occupied){
+  const combinations={'pea+ice':'서리 콩 슈터','ice+pea':'서리 콩 슈터','pea+fire':'화염 콩 슈터','fire+pea':'화염 콩 슈터','cactus+ice':'얼음 가시','ice+cactus':'얼음 가시','cactus+fire':'불꽃 가시','fire+cactus':'불꽃 가시'};
+  const combo=combinations[occupied.id+'+'+p.id];
+  if(!combo||occupied.fused){$('feedback').textContent='이 식물끼리는 융합할 수 없어요. 다른 칸을 골라 보세요.';return}
+  const fusionCost=Math.max(25,Math.floor(p.cost*.65));if(sun<fusionCost){$('feedback').textContent='융합할 태양이 부족해요! 과학 문제를 풀어 보세요.';return}
+  sun-=fusionCost;occupied.fused=true;occupied.fusionName=combo;occupied.fusionType=p.id;occupied.hp+=90;occupied.max+=90;occupied.anim=.5;
+  $('feedback').textContent='✨ '+combo+' 융합 성공! 공격력이 강해졌어요.';floatText(col,row,'✨ 융합!');sound(820);ui();draw();return;
+}if(sun<p.cost){$('feedback').textContent='태양이 부족해요! 과학 문제를 풀어 보세요.';return}sun-=p.cost;plants.push({id:p.id,col,row,hp:p.hp,max:p.hp,cool:0,age:0,anim:0});sound(450);ui();draw()}
+function spawn(){const z=ZS[stage>=2&&Math.random()<.25+stage*.06?1:0],row=Math.floor(Math.random()*5);zombies.push({id:z.id,x:9.1,row,hp:z.hp+stage*22,max:z.hp+stage*22,speed:z.speed+stage*.7,slow:0,bite:0,hurt:0});spawned++}
+function tick(dt){for(const p of plants)p.anim=Math.max(0,p.anim-dt);for(const z of zombies)z.bite=Math.max(0,z.bite-dt);if(state!=='playing'||quizOpen||!$('overlay').classList.contains('hidden'))return;elapsed+=dt;let next=3.8+elapsed*.0-stage*.25;if(spawned<spawnGoal&&elapsed>2&&elapsed>=spawned*Math.max(3.3,next)+2)spawn();for(const p of plants){p.age+=dt;p.cool-=dt;if(p.id==='sun'&&p.age>=12){sun+=25;p.age=0;floatText(p.col,p.row,'☀️ +25')}if(p.id==='wall'||p.id==='sun')continue;const target=zombies.filter(z=>z.row===p.row&&z.x>p.col+.25).sort((a,b)=>a.x-b.x)[0];const interval=(p.id==='fire'?.9:p.id==='cactus'?1.7:1.45)*(p.fused?.72:1);if(target&&p.cool<=0){shots.push({x:p.col+.8,row:p.row,speed:p.id==='fire'?5.4:4.4,damage:(p.id==='cactus'?42:p.id==='fire'?28:26)*(p.fused?1.75:1),ice:p.id==='ice'||(p.fused&&p.fusionType==='ice'),fire:p.id==='fire'||(p.fused&&p.fusionType==='fire')});p.cool=interval;p.anim=.25}}for(const s of shots){s.x+=s.speed*dt;const hit=zombies.find(z=>z.row===s.row&&Math.abs(z.x-s.x)<.35);if(hit){hit.hp-=s.damage;hit.hurt=.25;if(s.ice)hit.slow=3;if(s.fire)hit.hp-=6;s.dead=true;if(hit.hp<=0){zombies.splice(zombies.indexOf(hit),1);killed++;score+=20;floatText(Math.min(8,hit.x),hit.row,'+20')}}}shots=shots.filter(s=>!s.dead&&s.x<9.5);for(const z of zombies){z.slow=Math.max(0,z.slow-dt);z.hurt=Math.max(0,z.hurt-dt);const block=plants.find(p=>p.row===z.row&&Math.abs(z.x-(p.col+.5))<.5);if(block){block.hp-=dt*19;z.bite=.3;if(block.hp<=0)plants.splice(plants.indexOf(block),1)}else z.x-=z.speed*dt/60*(z.slow? .45:1);if(z.x<0){if(mowers[z.row]){mowers[z.row]=false;zombies.filter(a=>a.row===z.row).forEach(a=>{a.hp=0;killed++});zombies=zombies.filter(a=>a.row!==z.row);floatText(.3,z.row,'🚜 방어!')}else{zombies.splice(zombies.indexOf(z),1);lives--;sound(180);if(lives<=0){state='lost';saveRecord();modal(`<h2>😵 정원이 위험해요!</h2><p>${stage+1}단계에서 좀비를 막지 못했어요.</p><p>⭐ ${score}점 · 정답 ${correct}개</p><button class="primary" onclick="startGame()">처음부터 다시 도전</button>`);break}}}}if(spawned>=spawnGoal&&zombies.length===0&&state==='playing'){state='clear';nextStage()}ui()}
+function floatText(x,row,txt){const el=document.createElement('div');el.className='float';el.textContent=txt;el.style.left=(x+.2)*100/9+'%';el.style.top=(row+.3)*20+'%';$('board').appendChild(el);setTimeout(()=>el.remove(),750)}
+// Keep sprite elements alive across frames to avoid flicker and image reloads.
+const unitNodes=new WeakMap(), shotNodes=new WeakMap(), mowerNodes=[];
+const preloadedSprites=[];
+function preloadSprites(){
+  for(const id of [...PLANTS.map(p=>p.id),...ZS.map(z=>z.id)]){
+    for(const mode of ['idle','attack','hurt']){
+      const im=new Image();im.decoding='async';im.src=sprite(id,mode);preloadedSprites.push(im);
+    }
+  }
+}
+function createUnit(obj,kind){
+  const el=document.createElement('div');el.className='unit'+(kind==='zombie'?' zombie':'');
+  const hp=document.createElement('div');hp.className='hp';
+  const bar=document.createElement('i');hp.appendChild(bar);el.appendChild(hp);
+  $('board').appendChild(el);unitNodes.set(obj,el);return el;
+}
+function draw(){
+  const b=$('board');
+  for(let r=0;r<5;r++){
+    if(!mowerNodes[r]){const el=document.createElement('div');el.className='lawnmower';el.style.top=(r*20+3.5)+'%';b.appendChild(el);mowerNodes[r]=el;}
+    mowerNodes[r].style.display=mowers[r]?'':'none';
+  }
+  const alive=new Set();
+  for(const p of plants){
+    let el=unitNodes.get(p);if(!el)el=createUnit(p,'plant');alive.add(el);
+    el.style.left=p.col*100/9+'%';el.style.top=p.row*20+'%';
+    el.classList.toggle('fused',!!p.fused);let badge=el.querySelector('.fusion-badge');if(p.fused&&!badge){badge=document.createElement('span');badge.className='fusion-badge';badge.textContent='★';el.appendChild(badge)}const mode=p.anim>0?'attack':'idle';
+    if(el.dataset.mode!==mode){el.style.backgroundImage=`url("${sprite(p.id,mode)}")`;el.dataset.mode=mode;el.dataset.frame='';}
+    const frameIndex=Math.floor(performance.now()/135)%8;if(el.dataset.frame!==String(frameIndex)){el.style.backgroundPosition=`${frameIndex*(100/7)}% 0`;el.dataset.frame=String(frameIndex)}
+    el.firstChild.firstChild.style.width=Math.max(0,p.hp/p.max*100)+'%';
+  }
+  for(const z of zombies){
+    let el=unitNodes.get(z);if(!el)el=createUnit(z,'zombie');alive.add(el);
+    el.style.left=z.x*100/9+'%';el.style.top=z.row*20+'%';
+    const mode=z.hurt>0?'hurt':z.bite>0?'attack':'idle';
+    if(el.dataset.mode!==mode){el.style.backgroundImage=`url("${sprite(z.id,mode)}")`;el.dataset.mode=mode;el.dataset.frame='';}
+    const frameIndex=Math.floor(performance.now()/145)%8;if(el.dataset.frame!==String(frameIndex)){el.style.backgroundPosition=`${frameIndex*(100/7)}% 0`;el.dataset.frame=String(frameIndex)}
+    el.style.filter=z.slow?'drop-shadow(0 0 7px #38b9ff)':'';
+    el.firstChild.firstChild.style.width=Math.max(0,z.hp/z.max*100)+'%';
+  }
+  for(const sh of shots){
+    let el=shotNodes.get(sh);
+    if(!el){el=document.createElement('div');el.className='projectile';b.appendChild(el);shotNodes.set(sh,el);}
+    alive.add(el);el.style.left=sh.x*100/9+'%';el.style.top=(sh.row+.42)*20+'%';
+    el.style.background=sh.ice?'#8be4fa':sh.fire?'#fa8933':'';
+  }
+  b.querySelectorAll('.unit,.projectile').forEach(el=>{if(!alive.has(el))el.remove()});
+}
+$('board').onclick=e=>{const r=$('board').getBoundingClientRect();plantAt((e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height)};$('quizBtn').onclick=quiz;$('startBtn').onclick=()=>{if(state==='menu'||state==='lost'||state==='won')startGame();else if(state==='paused')pause()};$('pauseBtn').onclick=pause;$('restartBtn').onclick=()=>{state='menu';intro()};$('resetProgress').onclick=()=>{if(confirm('이 기기에 저장된 최고 기록을 지울까요?')){localStorage.removeItem('scienceGardenBest');updateRecord()}};updateRecord();for(let i=0;i<45;i++){const el=document.createElement('div');$('grid').appendChild(el)};
+preloadSprites();fetch('questions.json').then(r=>r.json()).then(q=>{questions=q;renderPlants();ui();intro()}).catch(()=>{modal('<h2>파일을 불러오지 못했어요.</h2><p>이 게임은 ZIP을 풀고 서버에서 실행해야 합니다. README를 확인해 주세요.</p>')});let lastDraw=0;function frame(t){if(last){let dt=Math.min((t-last)/1000,.05);tick(dt)}last=t;if(t-lastDraw>=33){draw();lastDraw=t}requestAnimationFrame(frame)}requestAnimationFrame(frame);
+
+// User-triggered fullscreen, with a visible fallback for unsupported browsers.
+const fullscreenBtn=document.getElementById('fullscreenBtn');
+function updateFullscreenLabel(){const on=!!document.fullscreenElement;fullscreenBtn.textContent=on?'⤢ 전체화면 종료':'⛶ 전체화면';fullscreenBtn.setAttribute('aria-label',on?'전체화면 종료':'전체화면으로 전환')}
+fullscreenBtn.addEventListener('click',async()=>{try{if(document.fullscreenElement){await document.exitFullscreen()}else if(document.documentElement.requestFullscreen){await document.documentElement.requestFullscreen()}else{alert('이 브라우저에서는 전체화면을 지원하지 않아요.')} }catch(err){alert('전체화면 전환을 허용하지 않는 브라우저입니다.')}updateFullscreenLabel()});
+document.addEventListener('fullscreenchange',updateFullscreenLabel);
+</script></body></html>
