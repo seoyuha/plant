@@ -282,9 +282,27 @@ http.createServer(async (req, res) => {
     return;
   }
   if (url.pathname === '/health') { res.end('ok'); return; }
-  const f = url.pathname === '/' ? '/index.html' : url.pathname === '/teacher' ? '/teacher.html' : url.pathname;
-  const file = path.normalize(path.join(PUB, decodeURIComponent(f)));
-  if (!file.startsWith(PUB) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) { res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }); res.end('페이지를 찾을 수 없어요.'); return; }
+  /* 주소 끝에 / 가 붙거나 .html 을 붙여도 열리게 */
+  let pn = decodeURIComponent(url.pathname).replace(/\/+$/, '') || '/';
+  if (pn === '/' || pn === '/index' || pn === '/index.html') pn = '/index.html';
+  else if (pn.toLowerCase() === '/teacher' || pn.toLowerCase() === '/teacher.html') pn = '/teacher.html';
+  /* public 폴더에 없으면 server.js 옆(맨 바깥)에서도 찾아요 — GitHub에 폴더 없이 올렸을 때 대비 */
+  let file = null;
+  for (const dir of [PUB, __dirname]) {
+    const f = path.normalize(path.join(dir, pn));
+    if (!f.startsWith(dir + path.sep)) continue;
+    if (dir === __dirname && !/\.(html|png|jpg|ico|css)$/i.test(f)) continue;   // server.js 같은 파일은 보여 주지 않아요
+    if (fs.existsSync(f) && fs.statSync(f).isFile()) { file = f; break; }
+  }
+  if (!file) {
+    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(`<meta charset="utf-8"><body style="font-family:sans-serif;padding:24px;line-height:1.7"><h2>페이지를 찾을 수 없어요</h2>
+<p>찾은 주소: <code>${pn.replace(/[<>&]/g, '')}</code></p>
+<p>GitHub 저장소에 <b>public/index.html</b>, <b>public/teacher.html</b>이 있는지 확인해 주세요.</p>
+<p>지금 서버에 있는 파일: <code>${[...(fs.existsSync(PUB) ? fs.readdirSync(PUB).map(x => 'public/' + x) : ['(public 폴더 없음)']), ...fs.readdirSync(__dirname).filter(x => !x.startsWith('.') && x !== 'node_modules' && x !== 'public')].join(', ').replace(/[<>&]/g, '')}</code></p>
+<p>학생 주소: <a href="/">/</a> · 교사 주소: <a href="/teacher">/teacher</a></p></body>`);
+    return;
+  }
   res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
   fs.createReadStream(file).pipe(res);
 }).listen(PORT, () => console.log(`정원 대결 서버: http://localhost:${PORT}  (교사: /teacher)`));
